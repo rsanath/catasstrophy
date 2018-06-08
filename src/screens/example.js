@@ -1,15 +1,9 @@
 import React, {Component} from 'react'
-import {View, Text, ScrollView} from 'react-native'
-import {getCats} from "../data/catapi"
+import {View} from 'react-native'
 import HomeScreen from "./home/index";
 
 export default class ExampleScreen extends Component {
-
-    componentDidMount() {
-        getCats()
-    }
-
-    render(): any {
+    render() {
         return (
             <View style={{
                 flex: 1,

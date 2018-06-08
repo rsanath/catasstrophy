@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.RNFetchBlob.RNFetchBlobPackage;
-import com.rnfs.RNFSPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.dylanvann.fastimage.FastImageViewPackage;
 import com.kishanjvaghela.cardview.RNCardViewPackage;
@@ -29,7 +28,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNFetchBlobPackage(),
-            new RNFSPackage(),
             new VectorIconsPackage(),
             new FastImageViewPackage(),
             new RNCardViewPackage()

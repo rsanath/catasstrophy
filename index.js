@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
-import App from './build/App';
+import App from './src/App';
 
 
 AppRegistry.registerComponent('Catasstrophy', () => App);

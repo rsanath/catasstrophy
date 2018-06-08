@@ -5,9 +5,9 @@ const parseString = require('react-native-xml2js').parseString;
  * @param {string} xml
  * @returns {object}
  */
-export function toJson(xml: string): object {
+export function toJson(xml) {
     let json = {};
-    parseString(xml, function (err: object, result: object) {
+    parseString(xml, function (err, result) {
         json = result
     });
     return json;
@@ -20,11 +20,19 @@ export function toJson(xml: string): object {
  * @param {object} json
  * @returns {object}
  */
-export function simplify(json: object): object {
+export function simplify(json) {
     json = json.response.data[0].images[0].image;
     return json.map(x => ({
         id: x.id[0],
         source_url: x.source_url[0],
         url: x.url[0]
     }))
+}
+
+export function title(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }
