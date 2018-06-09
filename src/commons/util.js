@@ -36,3 +36,13 @@ export function title(string) {
 export function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+export function getFileExtention(url) {
+    if (typeof url !== 'string') return undefined;
+    let blocks = url.split('.');
+    return blocks[blocks.length - 1];
+}
+
+export function random(array) {
+    return array[Math.floor(Math.random() * array.length)]
+}

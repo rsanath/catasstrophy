@@ -100,7 +100,7 @@ android {
     defaultConfig {
         applicationId "com.catasstrophy"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         ndk {
@@ -139,7 +139,6 @@ android {
 dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-vector-icons')
-    compile project(':react-native-fast-image')
     compile project(':react-native-cardview')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
