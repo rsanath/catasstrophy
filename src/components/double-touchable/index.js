@@ -30,7 +30,7 @@ export default class DoubleTouchable extends Component {
 
     render() {
         return (
-            <TouchableWithoutFeedback {...this.props} onPress={this.handlePress} >
+            <TouchableWithoutFeedback {...this.props} onPress={this.handlePress}>
                 {this.props.children}
             </TouchableWithoutFeedback>
         )

@@ -1,5 +1,5 @@
 import {random} from "./util";
-import {ToastAndroid, Platform} from "react-native";
+import {ToastAndroid} from "react-native";
 
 
 export function funnyName() {
@@ -23,9 +23,7 @@ export function funnyName() {
 }
 
 export function toast(string) {
-    Platform.OS === 'android' ?
-        ToastAndroid.show(string, ToastAndroid.SHORT) :
-        undefined;
+    if (Platform.OS === 'android') ToastAndroid.show(string, ToastAndroid.SHORT)
 }
 
 export function shareImage(path, message, title) {
@@ -33,7 +31,5 @@ export function shareImage(path, message, title) {
 }
 
 export function log(string) {
-    if (__DEV__) {
-        console.log(string);
-    }
+    if (__DEV__) console.log(string)
 }
