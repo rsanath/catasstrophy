@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {View, ActivityIndicator, StyleSheet, FlatList, Alert} from 'react-native'
 import Article from '../../components/article/index'
 import {getCats} from "../../data/catapi"
-import {saveImage} from '../../data/file'
+import {saveImage} from '../../data/save-file'
 import {checkStoragePermission, requestStoragePermission} from "../../commons/permission";
 import {toast} from "../../commons/helper";
 
@@ -42,9 +42,16 @@ export default class HomeScreen extends Component {
     }
 
     _renderItem({item}) {
-        const onSave = () => this._saveImage(item.url);
+        const onSave = () => {
+            this._saveImage(item.url);
+        };
+
+        const onShare = () => {
+            toast('share')
+        };
+
         return (
-            <Article onSave={onSave} image={{uri: item.url}}/>
+            <Article onShare={onShare} onSave={onSave} image={{uri: item.url}}/>
         )
     }
 

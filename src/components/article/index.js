@@ -23,6 +23,7 @@ export default class Article extends Component {
         };
         this._onImageDoublePress = this._onImageDoublePress.bind(this);
         this._onSavePressed = this._onSavePressed.bind(this);
+        this._onSharePressed = this._onSharePressed.bind(this);
     }
 
     componentDidMount() {
@@ -40,6 +41,10 @@ export default class Article extends Component {
 
     _onSavePressed() {
         this.props.onSave && this.props.onSave()
+    }
+
+    _onSharePressed() {
+        this.props.onShare && this.props.onShare()
     }
 
     render() {
@@ -62,12 +67,10 @@ export default class Article extends Component {
                     <View style={{
                         flexDirection: 'row'
                     }}>
-                        <TouchableOpacity onPress={this._onSavePressed} >
+                        <TouchableOpacity onPress={this._onSavePressed}>
                             <Icon name={'md-download'} size={35} color={'black'}/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={{
-                            marginLeft: 18
-                        }}>
+                        <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 18}}>
                             <Icon name={'md-share'} size={35} color={'black'}/>
                         </TouchableOpacity>
                     </View>
