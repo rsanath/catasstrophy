@@ -39,7 +39,7 @@ export default class Article extends Component {
     }
 
     _onSavePressed() {
-        if (this.props.onSave) this.props.onSave()
+        this.props.onSave && this.props.onSave()
     }
 
     render() {

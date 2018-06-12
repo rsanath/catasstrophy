@@ -27,3 +27,13 @@ export function toast(string) {
         ToastAndroid.show(string, ToastAndroid.SHORT) :
         undefined;
 }
+
+export function shareImage(path, message, title) {
+    const options = {}
+}
+
+export function log(string) {
+    if (__DEV__) {
+        console.log(string);
+    }
+}

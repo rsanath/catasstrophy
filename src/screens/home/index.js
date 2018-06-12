@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {View, ActivityIndicator, StyleSheet, FlatList, Alert} from 'react-native'
 import Article from '../../components/article/index'
 import {getCats} from "../../data/catapi"
-import {saveImage} from '../../data/file-system/file'
+import {saveImage} from '../../data/file'
 import {checkStoragePermission, requestStoragePermission} from "../../commons/permission";
 import {toast} from "../../commons/helper";
 
@@ -14,7 +14,6 @@ export default class HomeScreen extends Component {
         this.state = {
             data: [],
             refreshing: false,
-            isLoadingMore: false,
             permissionGranted: false,
         };
         this._loadMore = this._loadMore.bind(this);
@@ -50,10 +49,8 @@ export default class HomeScreen extends Component {
     }
 
     _loadMore({distanceFromEnd}) {
-        this.setState({isLoadingMore: true});
         getCats(6).then(result => {
             this.setState({
-                isLoadingMore: false,
                 data: [...this.state.data, ...result]
             })
         })
@@ -73,7 +70,8 @@ export default class HomeScreen extends Component {
                     renderItem={this._renderItem}
                     onEndReached={this._loadMore}
                     onEndReachedThreshold={1}
-                    ListFooterComponent={<ActivityIndicator animating={this.state.data.length != 0} size="large"/>}
+                    ListFooterComponent={
+                        <ActivityIndicator animating={this.state.data.length !== 0} size="large"/>}
                     refreshing={this.state.refreshing}
                     onRefresh={this._refreshContent}/>
             </View>
