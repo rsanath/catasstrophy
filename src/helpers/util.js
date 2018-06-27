@@ -17,6 +17,7 @@ export function toJson(xml) {
  *  Converts
  *  {"response":{"data":[{"images":[{"image":[{"url":["http://25.media.tumblr.com/tumblr_m3lbucuuAL1qze0hyo1_400.jpg"],"id":["a47"],"source_url":["http://thecatapi.com/?id=a47"]}]}]}]}}
  *  into simple json object without array
+ *
  * @param {object} json
  * @returns {object}
  */
@@ -45,4 +46,10 @@ export function getFileExtention(url) {
 
 export function random(array) {
     return array[Math.floor(Math.random() * array.length)]
+}
+
+export function trimPath(path, steps = 3) {
+    const dirs = path.split('/');
+    const len = dirs.length;
+    return dirs.slice(len - steps, len).join('/')
 }

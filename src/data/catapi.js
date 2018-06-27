@@ -1,4 +1,4 @@
-import {toJson, simplify} from "../commons/util";
+import {toJson, simplify} from "../helpers/util";
 
 const apiKey = "MzIwNzU3";
 

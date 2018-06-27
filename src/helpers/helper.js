@@ -1,5 +1,5 @@
 import {random} from "./util";
-import {ToastAndroid} from "react-native";
+import {ToastAndroid, Platform} from "react-native";
 
 
 export function funnyName() {
@@ -24,10 +24,6 @@ export function funnyName() {
 
 export function toast(string) {
     if (Platform.OS === 'android') ToastAndroid.show(string, ToastAndroid.SHORT)
-}
-
-export function shareImage(path, message, title) {
-    const options = {}
 }
 
 export function log(string) {

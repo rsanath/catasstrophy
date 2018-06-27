@@ -1,4 +1,5 @@
 import {PermissionsAndroid, Platform} from 'react-native';
+import {log} from "./helper";
 
 
 async function requestAndroidStoragePermission() {
@@ -22,19 +23,22 @@ async function checkAndroidStoragePermission() {
     try {
         return await PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
     } catch (err) {
-        console.warn(err);
+        log(err);
         return false;
     }
 }
 
 export async function requestStoragePermission() {
     return Platform.OS === 'android' ?
-        await requestAndroidStoragePermission() :
-        () => undefined
+        await requestAndroidStoragePermission() : undefined
 }
 
 export async function checkStoragePermission() {
     return Platform.OS === 'android' ?
-        checkAndroidStoragePermission() :
-        () => undefined
+        checkAndroidStoragePermission() : undefined
+}
+
+export async function checkAndRequestStoragePermission() {
+    if (await checkStoragePermission()) return true;
+    else return requestStoragePermission()
 }
