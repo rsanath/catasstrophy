@@ -4,7 +4,8 @@ import Article from '../../components/article/index'
 import {getCats} from "../../data/catapi"
 import {saveImage} from '../../helpers/save-image-helper'
 import {checkAndRequestStoragePermission} from "../../helpers/permission";
-import {toast} from "../../helpers/helper";
+import {toast} from "../../helpers/application-helper";
+import {saveAndShareImage} from "../../helpers/share-image-helper";
 
 
 export default class HomeScreen extends Component {
@@ -16,6 +17,7 @@ export default class HomeScreen extends Component {
         this._refreshContent = this._refreshContent.bind(this);
         this._saveImage = this._saveImage.bind(this);
         this._renderItem = this._renderItem.bind(this);
+        this._shareImage = this._shareImage.bind(this);
     }
 
     async componentDidMount() {
@@ -30,9 +32,16 @@ export default class HomeScreen extends Component {
             saveImage(url).then(res => {if (res.successful) toast(`Saved at ${res.path}`)});
     }
 
+    async _shareImage(url) {
+        if (await checkAndRequestStoragePermission()) {
+            toast('Saving and sharing image...');
+            saveAndShareImage(url)
+        }
+    }
+
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
-        const onShare = () => toast('share');
+        const onShare = () => this._shareImage(item.url);
 
         return <Article onShare={onShare} onSave={onSave} image={{uri: item.url}}/>
     }
