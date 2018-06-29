@@ -2,7 +2,7 @@ import {random} from "./util";
 import {ToastAndroid, Platform} from "react-native";
 
 
-export function funnyName() {
+export function getFunnyName() {
     const firstName = ["Runny", "Buttercup", "Dinky", "Stinky", "Crusty",
         "Greasy", "Gidget", "Cheesypoof", "Lumpy", "Wacky", "Tiny", "Flunky",
         "Fluffy", "Zippy", "Doofus", "Gobsmacked", "Slimy", "Grimy", "Salamander",

@@ -3,10 +3,9 @@
  */
 
 import RNFetchBlob from 'react-native-fetch-blob'
-import {funnyName} from "./helper"
-import {getFileExtention, trimPath} from "./util"
+import {getFunnyName} from "./application-helper"
+import {getFileExtention} from "./util"
 import localStorage from './local-storage';
-import {checkStoragePermission, requestStoragePermission} from "./permission";
 
 
 async function getAllSavedPhotos() {
@@ -45,15 +44,15 @@ async function isSaved(url) {
  */
 export async function saveImage(url) {
     const extension = getFileExtention(url) || 'png';
-    const fileName = funnyName();
-    const filepath = `${RNFetchBlob.fs.dirs.PictureDir}/Cats/${fileName}.${extension}`;
+    const fileName = getFunnyName();
+    const filePath = `${RNFetchBlob.fs.dirs.PictureDir}/Cats/${fileName}.${extension}`;
 
     if (await isSaved(url)) return {successful: true, path: (await getSavedPhoto(url)).filepath};
-    else await markAsSaved(url, filepath);
+    else await markAsSaved(url, filePath);
 
     return await RNFetchBlob
-        .config({path: filepath})
+        .config({path: filePath})
         .fetch('GET', url)
-        .then(response => ({successful: true, path: filepath}))
+        .then(response => ({successful: true, path: filePath}))
         .catch(error => ({successful: false, error: error.toString()}))
 }

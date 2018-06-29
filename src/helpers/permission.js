@@ -1,5 +1,5 @@
 import {PermissionsAndroid, Platform} from 'react-native';
-import {log} from "./helper";
+import {log} from "./application-helper";
 
 
 async function requestAndroidStoragePermission() {
