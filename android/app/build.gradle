@@ -141,10 +141,9 @@ dependencies {
     compile project(':react-native-fetch-blob')
     compile project(':react-native-vector-icons')
     compile project(':react-native-cardview')
-    compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
-    compile "com.facebook.react:react-native:+"  // From node_modules
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.facebook.react:react-native:+' // From node_modules
     // Gif support in react native Image component
     compile 'com.facebook.fresco:animated-gif:1.3.0'
 }
