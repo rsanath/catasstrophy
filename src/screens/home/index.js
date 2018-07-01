@@ -46,7 +46,7 @@ export default class HomeScreen extends Component {
         return <Article onShare={onShare} onSave={onSave} image={{uri: item.url}}/>
     }
 
-    _loadMore({distanceFromEnd}) {
+    _loadMore() {
         getCats(6).then(result => {
             this.setState({
                 data: [...this.state.data, ...result]
@@ -54,6 +54,11 @@ export default class HomeScreen extends Component {
         })
     }
 
+    /**
+     * Pull to refresh's callback
+     *
+     * @private
+     */
     _refreshContent() {
         this.setState({refreshing: true});
         getCats().then(data => this.setState({data, refreshing: false}))

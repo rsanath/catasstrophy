@@ -53,3 +53,18 @@ export function trimPath(path, steps = 3) {
     const len = dirs.length;
     return dirs.slice(len - steps, len).join('/')
 }
+
+export function removeFromList(array, val) {
+    for (let i = 0; i < array.length; i++) {
+        if (array[i] === val) {
+            array.splice(i, 1);
+            i--;
+        }
+    }
+    return array;
+}
+
+export function safeCall(func) {
+    if(typeof func !== 'function') return;
+    func && func()
+}

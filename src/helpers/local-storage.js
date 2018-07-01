@@ -1,3 +1,7 @@
+/**
+ * An AsyncStorage wrapper with error handling and complex object support.
+ */
+
 import {AsyncStorage} from 'react-native';
 
 export default localStorage = {

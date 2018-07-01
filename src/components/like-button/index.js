@@ -1,7 +1,11 @@
 import React, {Component} from 'react'
 import {TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import {safeCall} from "../../helpers/util";
 
+/**
+ * An Instagram style like button
+ */
 export default class LikeButton extends Component {
 
     constructor(props) {
@@ -10,17 +14,15 @@ export default class LikeButton extends Component {
             color: props.color || 'firebrick',
             liked: props.liked,
             size: props.size || 30,
-            onLike: props.onLike || (() => null),
-            onUnlike: props.onUnlike || (() => null)
         };
         this._onPress = this._onPress.bind(this)
     }
 
     _onPress() {
         if (this.state.liked) {
-            this.state.onUnlike()
+            safeCall(this.props.onUnlike)
         } else {
-            this.state.onLike()
+            safeCall(this.state.onLike)
         }
         this.setState(state => ({liked: !state.liked}))
     }

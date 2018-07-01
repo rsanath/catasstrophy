@@ -1,5 +1,8 @@
 /**
- * This module serves in persisting a image in the phone's storage
+ * This module serves in persisting a image in the phone's storage.
+ *
+ * Info: The images are stored under the 'internal_storage'/Pictures/Cats
+ * Info: react-native-fetch-blob is used to download and save images in internal storage.
  */
 
 import RNFetchBlob from 'react-native-fetch-blob'
@@ -13,7 +16,7 @@ async function getAllSavedPhotos() {
 }
 
 /**
- * Locally store the info of the images tha are saved
+ * Locally store the info of the images that are saved
  * so tha we don't save the same image twice.
  *
  * @param url
@@ -26,6 +29,12 @@ async function markAsSaved(url, filepath) {
     return await localStorage.set('saved', savedImages);
 }
 
+/**
+ * Given the image's url returns the path where the file is saved locally.
+ *
+ * @param url
+ * @returns {Promise<*>}
+ */
 async function getSavedPhoto(url) {
     const savedImages = await getAllSavedPhotos();
     return savedImages.find(image => image.url == url)
