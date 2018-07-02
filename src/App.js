@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
-import HomeScreen from "./screens/home";
+import RootNavigator from './screens/navigator';
 
 console.disableYellowBox = true;
 
 export default class App extends Component {
     render() {
-        return <HomeScreen/>
+        return <RootNavigator/>
     }
 }

@@ -3,12 +3,16 @@ import {View, ActivityIndicator, StyleSheet, FlatList} from 'react-native'
 import Article from '../../components/article/index'
 import {getCats} from "../../data/catapi"
 import {saveImage} from '../../helpers/save-image-helper'
-import {checkAndRequestStoragePermission} from "../../helpers/permission";
+import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
 import {toast} from "../../helpers/application-helper";
 import {saveAndShareImage} from "../../helpers/share-image-helper";
+import {bookmarkImage, deleteBookmark} from "../../helpers/bookmark-helper";
 
 
 export default class HomeScreen extends Component {
+    static navigationOptions = {
+        title: 'Catasstrophy',
+    };
 
     constructor(props) {
         super(props);
@@ -27,9 +31,12 @@ export default class HomeScreen extends Component {
     }
 
     async _saveImage(url) {
-        if (await checkAndRequestStoragePermission())
+        if (await checkAndRequestStoragePermission()) {
             toast('Saving image...');
-            saveImage(url).then(res => {if (res.successful) toast(`Saved at ${res.path}`)});
+            saveImage(url).then(res => {
+                if (res.successful) toast(`Saved at ${res.path}`)
+            });
+        }
     }
 
     async _shareImage(url) {
@@ -42,8 +49,15 @@ export default class HomeScreen extends Component {
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
         const onShare = () => this._shareImage(item.url);
+        const onLike = () => bookmarkImage(item.url);
+        const onUnlike = () => deleteBookmark(item.url);
 
-        return <Article onShare={onShare} onSave={onSave} image={{uri: item.url}}/>
+        return <Article
+            onLike={onLike}
+            onUnlike={onUnlike}
+            onShare={onShare}
+            onSave={onSave}
+            image={{uri: item.url}}/>
     }
 
     _loadMore() {
