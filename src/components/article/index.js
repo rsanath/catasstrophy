@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
-import {Dimensions, Image, StyleSheet, TouchableOpacity, View} from 'react-native'
+import {Dimensions, ImageBackground, Image, StyleSheet, TouchableOpacity, View, Animated} from 'react-native'
 import CardView from 'react-native-cardview'
 import LikeButton from "../like-button"
 import Icon from 'react-native-vector-icons/Ionicons'
 import DoubleTouchable from '../double-touchable/index'
 import {safeCall} from "../../helpers/util";
+import {getScreenWidth} from "../../helpers/application-helper";
 
 /**
  * This method will give the the relative height of an image with respect
@@ -27,11 +28,12 @@ export default class Article extends Component {
     constructor(props) {
         super(props);
 
-        let screenWidth = Dimensions.get('window').width;
+        let screenWidth = getScreenWidth();
         this.state = {
             // Initialize the view as blank square until the Image is loaded.
             width: screenWidth,
-            height: screenWidth
+            height: screenWidth,
+            likeOpacity: new Animated.Value(0)
         };
         this._onImageDoublePress = this._onImageDoublePress.bind(this);
         this._onSavePressed = this._onSavePressed.bind(this);
@@ -48,8 +50,26 @@ export default class Article extends Component {
         });
     }
 
+    _playHeartFadeAnimation() {
+        Animated.sequence([
+            Animated.timing(
+                this.state.likeOpacity,
+                {
+                    toValue: 1,
+                    duration: 350,
+                }),
+            Animated.timing(
+                this.state.likeOpacity,
+                {
+                    toValue: 0,
+                    duration: 350,
+                })
+        ]).start();
+    }
+
     _onLike() {
-        safeCall(this.props.onLike)
+        this._playHeartFadeAnimation();
+        this.props.onLike()
     }
 
     _onUnlike() {
@@ -70,37 +90,51 @@ export default class Article extends Component {
     }
 
     render() {
+
         return (
             <CardView
                 cardElevation={3}
                 cornerRadius={2}
                 style={styles.root}>
+
                 <DoubleTouchable onDoublePress={this._onImageDoublePress}>
-                    <Image
-                        style={{
-                            resizeMode: 'contain',
+
+                    <ImageBackground
+                        style={[{
                             width: this.state.width,
                             height: this.state.height,
-                        }}
-                        source={this.props.image}/>
+                        }, styles.image]} source={this.props.image}>
+                        <DoubleTouchable onDoublePress={this._onImageDoublePress}>
+                            <Animated.Text style={{opacity: this.state.likeOpacity}}>
+                                <Icon name={'md-heart'} size={getScreenWidth() / 2.5} color={'white'}/>
+                            </Animated.Text>
+                        </DoubleTouchable>
+                    </ImageBackground>
+
                 </DoubleTouchable>
+
                 <View style={styles.actions}>
+
                     <LikeButton
                         onLike={this._onLike}
                         onUnlike={this._onUnlike}
                         ref="likeButton"
-                        liked={false} size={35}/>
-                    <View style={{
-                        flexDirection: 'row'
-                    }}>
+                        liked={this.props.liked} size={35}/>
+
+                    <View style={{flexDirection: 'row'}}>
+
                         <TouchableOpacity onPress={this._onSavePressed}>
                             <Icon name={'md-download'} size={35} color={'black'}/>
                         </TouchableOpacity>
+
                         <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 18}}>
                             <Icon name={'md-share'} size={35} color={'black'}/>
                         </TouchableOpacity>
+
                     </View>
+
                 </View>
+
             </CardView>
         )
     }
@@ -111,6 +145,11 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         backgroundColor: 'grey',
         flexDirection: 'column'
+    },
+    image: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        resizeMode: 'contain',
     },
     actions: {
         flexDirection: 'row',

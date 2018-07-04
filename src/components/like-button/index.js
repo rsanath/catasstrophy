@@ -22,7 +22,7 @@ export default class LikeButton extends Component {
         if (this.state.liked) {
             safeCall(this.props.onUnlike)
         } else {
-            safeCall(this.state.onLike)
+            safeCall(this.props.onLike)
         }
         this.setState(state => ({liked: !state.liked}))
     }

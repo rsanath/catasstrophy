@@ -1,17 +1,26 @@
 import React, {Component} from 'react'
-import {View, ActivityIndicator, StyleSheet, FlatList} from 'react-native'
+import {View, ActivityIndicator, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
 import Article from '../../components/article/index'
 import {getCats} from "../../data/catapi"
 import {saveImage} from '../../helpers/save-image-helper'
 import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
 import {toast} from "../../helpers/application-helper";
 import {saveAndShareImage} from "../../helpers/share-image-helper";
-import {bookmarkImage, deleteBookmark} from "../../helpers/bookmark-helper";
+import {likeImage, removeLike} from "../../helpers/likes-helper";
+import Icon from 'react-native-vector-icons/Ionicons'
 
 
 export default class HomeScreen extends Component {
-    static navigationOptions = {
-        title: 'Catasstrophy',
+    static navigationOptions = ({navigation}) => {
+        let viewLikesButton = (
+            <TouchableOpacity onPress={navigation.getParam('goToLikesScreen')}>
+                <Icon style={{marginRight: 13}} name={'md-heart'} size={30} color={'black'}/>
+            </TouchableOpacity>);
+
+        return {
+            headerTitle: 'Cats',
+            headerRight: viewLikesButton,
+        };
     };
 
     constructor(props) {
@@ -24,10 +33,13 @@ export default class HomeScreen extends Component {
         this._shareImage = this._shareImage.bind(this);
     }
 
-    async componentDidMount() {
-        this.setState({
-            data: await getCats(10),
-        });
+    componentDidMount() {
+        this.props.navigation.setParams({goToLikesScreen: this._goToLikesScreen.bind(this)});
+        getCats(10).then(data => this.setState({data}))
+    }
+
+    _goToLikesScreen() {
+        this.props.navigation.navigate('Likes')
     }
 
     async _saveImage(url) {
@@ -49,14 +61,15 @@ export default class HomeScreen extends Component {
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
         const onShare = () => this._shareImage(item.url);
-        const onLike = () => bookmarkImage(item.url);
-        const onUnlike = () => deleteBookmark(item.url);
+        const onLike = () => likeImage(item.url);
+        const onUnlike = () => removeLike(item.url);
 
         return <Article
             onLike={onLike}
             onUnlike={onUnlike}
             onShare={onShare}
             onSave={onSave}
+            liked={false}
             image={{uri: item.url}}/>
     }
 

@@ -1,5 +1,5 @@
 import {random} from "./util";
-import {ToastAndroid, Platform} from "react-native";
+import {ToastAndroid, Platform, Dimensions} from "react-native";
 
 
 export function getFunnyName() {
@@ -28,4 +28,8 @@ export function toast(string) {
 
 export function log(string) {
     if (__DEV__) console.log(string)
+}
+
+export function getScreenWidth() {
+    return Dimensions.get('window').width;
 }
