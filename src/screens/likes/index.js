@@ -2,13 +2,17 @@ import React, {Component} from 'react'
 import {FlatList, StyleSheet, View} from 'react-native'
 import {getLikedImages, likeImage, removeLike} from "../../helpers/likes-helper";
 import Article from "../../components/article";
-import { HeaderBackButton } from 'react-navigation';
+import {HeaderBackButton} from 'react-navigation';
+import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
+import {saveAndShareImage} from "../../helpers/share-image-helper";
+import {toast} from "../../helpers/application-helper";
+import {saveImage} from "../../helpers/save-image-helper";
 
 
 export default class LikesScreen extends Component {
     static navigationOptions = ({navigation}) => {
         return {
-            headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)} />,
+            headerLeft: <HeaderBackButton onPress={() => navigation.goBack(null)}/>,
             headerTitle: 'Likes'
         };
     };
@@ -16,16 +20,37 @@ export default class LikesScreen extends Component {
     constructor(props) {
         super(props);
         this.state = {data: []};
+        this._saveImage = this._saveImage.bind(this);
         this._renderItem = this._renderItem.bind(this);
+        this._getShareFunction = this._getShareFunction.bind(this);
     }
 
-    async componentDidMount() {
-        this.setState({data: await getLikedImages()})
+    componentDidMount() {
+        this.props.navigation.addListener('willFocus',
+            async () => this.setState({data: await getLikedImages()})
+        )
+    }
+
+    async _saveImage(url) {
+        if (await checkAndRequestStoragePermission()) {
+            toast('Saving image...');
+            saveImage(url).then(res => {
+                if (res.successful) toast(`Saved at ${res.path}`)
+            });
+        }
+    }
+
+    _getShareFunction(url) {
+        return async (message) => {
+            if (!(await checkAndRequestStoragePermission())) return;
+            toast('Saving and sharing image...');
+            saveAndShareImage(url, message);
+        }
     }
 
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
-        const onShare = () => this._shareImage(item.url);
+        const onShare = this._getShareFunction(item.url);
         const onLike = () => likeImage(item.url);
         const onUnlike = () => removeLike(item.url);
 

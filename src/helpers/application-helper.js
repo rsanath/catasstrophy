@@ -33,3 +33,9 @@ export function log(string) {
 export function getScreenWidth() {
     return Dimensions.get('window').width;
 }
+
+export function getConstants() {
+    return {
+        iconSize: 35
+    }
+}

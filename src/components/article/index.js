@@ -1,11 +1,15 @@
 import React, {Component} from 'react'
-import {Dimensions, ImageBackground, Image, StyleSheet, TouchableOpacity, View, Animated} from 'react-native'
+import {
+    Dimensions, ImageBackground, Image, StyleSheet,
+    TouchableOpacity, View, Animated, TextInput
+} from 'react-native'
 import CardView from 'react-native-cardview'
 import LikeButton from "../like-button"
 import Icon from 'react-native-vector-icons/Ionicons'
 import DoubleTouchable from '../double-touchable/index'
 import {safeCall} from "../../helpers/util";
-import {getScreenWidth} from "../../helpers/application-helper";
+import {getConstants, getScreenWidth} from "../../helpers/application-helper";
+import ShareBar from "../share-bar";
 
 /**
  * This method will give the the relative height of an image with respect
@@ -33,6 +37,8 @@ export default class Article extends Component {
             // Initialize the view as blank square until the Image is loaded.
             width: screenWidth,
             height: screenWidth,
+            shareMode: false,
+            shareMessage: '',
             likeOpacity: new Animated.Value(0)
         };
         this._onImageDoublePress = this._onImageDoublePress.bind(this);
@@ -86,7 +92,36 @@ export default class Article extends Component {
     }
 
     _onSharePressed() {
-        safeCall(this.props.onShare)
+        this.setState(state => ({shareMode: !state.shareMode}));
+    }
+
+    _getDefaultActions() {
+        const {iconSize} = getConstants();
+
+        return (<View style={styles.actions}>
+            <LikeButton
+                onLike={this._onLike}
+                onUnlike={this._onUnlike}
+                ref="likeButton"
+                liked={this.props.liked} size={iconSize}/>
+            <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity onPress={this._onSavePressed}>
+                    <Icon name={'md-download'} size={iconSize} color={'black'}/>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 18}}>
+                    <Icon name={'md-share'} size={iconSize} color={'black'}/>
+                </TouchableOpacity>
+            </View>
+        </View>)
+    }
+
+    _getActionTray() {
+        const onShare = this.props.onShare;
+        const onClose = () => this.setState({shareMode: false});
+
+        return this.state.shareMode ?
+            <ShareBar onShare={onShare} onClose={onClose}/> :
+            this._getDefaultActions()
     }
 
     render() {
@@ -100,39 +135,21 @@ export default class Article extends Component {
                 <DoubleTouchable onDoublePress={this._onImageDoublePress}>
 
                     <ImageBackground
-                        style={[{
-                            width: this.state.width,
-                            height: this.state.height,
-                        }, styles.image]} source={this.props.image}>
+                        style={[{width: this.state.width, height: this.state.height,}, styles.image]}
+                        source={this.props.image}>
+
                         <DoubleTouchable onDoublePress={this._onImageDoublePress}>
                             <Animated.Text style={{opacity: this.state.likeOpacity}}>
                                 <Icon name={'md-heart'} size={getScreenWidth() / 2.5} color={'white'}/>
                             </Animated.Text>
                         </DoubleTouchable>
+
                     </ImageBackground>
 
                 </DoubleTouchable>
 
-                <View style={styles.actions}>
-
-                    <LikeButton
-                        onLike={this._onLike}
-                        onUnlike={this._onUnlike}
-                        ref="likeButton"
-                        liked={this.props.liked} size={35}/>
-
-                    <View style={{flexDirection: 'row'}}>
-
-                        <TouchableOpacity onPress={this._onSavePressed}>
-                            <Icon name={'md-download'} size={35} color={'black'}/>
-                        </TouchableOpacity>
-
-                        <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 18}}>
-                            <Icon name={'md-share'} size={35} color={'black'}/>
-                        </TouchableOpacity>
-
-                    </View>
-
+                <View style={styles.actionTray}>
+                    {this._getActionTray()}
                 </View>
 
             </CardView>
@@ -152,9 +169,13 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     actions: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    actionTray: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between',
         paddingHorizontal: 20,
         paddingVertical: 15,
         backgroundColor: 'rgb(255,255,255)',

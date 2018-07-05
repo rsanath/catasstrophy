@@ -21,7 +21,7 @@ async function setLikedImages(likes) {
 export async function likeImage(imageUrl) {
     const likedImages = await getLikedImages();
     if (likedImages.find(likedImage => likedImage.url === imageUrl)) return;
-    likedImages.push({url: imageUrl});
+    likedImages.unshift({url: imageUrl});
     return await setLikedImages(likedImages)
 }
 

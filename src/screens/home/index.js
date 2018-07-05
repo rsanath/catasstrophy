@@ -30,7 +30,7 @@ export default class HomeScreen extends Component {
         this._refreshContent = this._refreshContent.bind(this);
         this._saveImage = this._saveImage.bind(this);
         this._renderItem = this._renderItem.bind(this);
-        this._shareImage = this._shareImage.bind(this);
+        this._getShareFunction = this._getShareFunction.bind(this);
     }
 
     componentDidMount() {
@@ -51,16 +51,17 @@ export default class HomeScreen extends Component {
         }
     }
 
-    async _shareImage(url) {
-        if (await checkAndRequestStoragePermission()) {
+    _getShareFunction(url) {
+        return async (message) => {
+            if (!(await checkAndRequestStoragePermission())) return;
             toast('Saving and sharing image...');
-            saveAndShareImage(url)
+            saveAndShareImage(url, message);
         }
     }
 
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
-        const onShare = () => this._shareImage(item.url);
+        const onShare = this._getShareFunction(item.url);
         const onLike = () => likeImage(item.url);
         const onUnlike = () => removeLike(item.url);
 
