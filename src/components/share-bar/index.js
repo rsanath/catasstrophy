@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, TextInput, TouchableOpacity} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
+import Icon from 'react-native-vector-icons/Feather'
 import {getConstants} from "../../helpers/application-helper";
 
 export default class ShareBar extends Component {
@@ -23,17 +23,18 @@ export default class ShareBar extends Component {
         return (
             <View style={styles.root}>
                 <TouchableOpacity onPress={this.props.onClose}>
-                    <Icon name={'md-close'} size={iconSize} color={'black'}/>
+                    <Icon name={'x'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
 
                 <TextInput
+                    underlineColorAndroid='rgba(0,0,0,0)'
                     autoFocus={true}
                     placeholder={'Enter share message'}
-                    style={{flex: 1}}
+                    style={styles.message}
                     onChangeText={shareMessage => this.setState({shareMessage})}/>
 
                 <TouchableOpacity onPress={this._onShare}>
-                    <Icon name={'md-share'} size={iconSize} color={'black'}/>
+                    <Icon name={'share-2'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
             </View>
         )
@@ -45,5 +46,9 @@ const styles = {
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    message: {
+        flex: 1,
+        fontSize: 20
     }
-}
+};

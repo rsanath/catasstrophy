@@ -36,6 +36,19 @@ export function getScreenWidth() {
 
 export function getConstants() {
     return {
-        iconSize: 35
+        iconSize: 32
     }
+}
+
+/**
+ * This method will give the the relative height of an image with respect
+ * to the device's screen width.
+ *
+ * @param imgWidth
+ * @param imgHeight
+ * @returns {number}
+ */
+export function getHeightForFullWidth(imgWidth, imgHeight) {
+    let {width} = Dimensions.get('window');
+    return width * (imgHeight / imgWidth);
 }

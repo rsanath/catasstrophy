@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {TouchableOpacity} from 'react-native'
-import Icon from 'react-native-vector-icons/Ionicons'
+import Ionicon from 'react-native-vector-icons/Ionicons'
 import {safeCall} from "../../helpers/util";
 
 /**
@@ -12,29 +12,32 @@ export default class LikeButton extends Component {
         super(props);
         this.state = {
             color: props.color || 'firebrick',
-            liked: props.liked,
             size: props.size || 30,
         };
         this._onPress = this._onPress.bind(this)
     }
 
+    _getIcon() {
+        let size = this.state.size || 30;
+        let color = this.props.liked ? this.state.color : 'black';
+
+        return this.props.liked ?
+            <Ionicon name={'md-heart'} size={size} color={color} /> :
+            <Ionicon name={'md-heart-outline'} size={size} color={color} />
+    }
+
     _onPress() {
-        if (this.state.liked) {
+        if (this.props.liked) {
             safeCall(this.props.onUnlike)
         } else {
             safeCall(this.props.onLike)
         }
-        this.setState(state => ({liked: !state.liked}))
     }
 
     render() {
-        let icon = this.state.liked ? 'md-heart' : 'md-heart-outline';
-        let size = this.state.size || 30;
-        let color = this.state.liked ? this.state.color : 'black';
-
         return (
             <TouchableOpacity onPress={this._onPress}>
-                <Icon name={icon} size={size} color={color}/>
+                {this._getIcon()}
             </TouchableOpacity>
         )
     }
