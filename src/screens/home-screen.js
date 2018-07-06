@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
-import {View, ActivityIndicator, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
-import Article from '../../components/article/index'
-import {getCats} from "../../data/catapi"
-import {saveImage} from '../../helpers/save-image-helper'
-import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
-import {toast} from "../../helpers/application-helper";
-import {saveAndShareImage} from "../../helpers/share-image-helper";
-import {likeImage, removeLike} from "../../helpers/likes-helper";
+import {ActivityIndicator, StyleSheet, FlatList, TouchableOpacity, ScrollView} from 'react-native'
+import Article from '../widgets/article'
+import {getCats} from "../data/catapi"
+import {saveImage} from '../helpers/save-image-helper'
+import {checkAndRequestStoragePermission} from "../helpers/permissions-helper";
+import {toast} from "../helpers/application-helper";
+import {saveAndShareImage} from "../helpers/share-image-helper";
+import {likeImage, removeLike} from "../helpers/likes-helper";
 import Icon from 'react-native-vector-icons/Ionicons'
 
 
@@ -94,17 +94,15 @@ export default class HomeScreen extends Component {
 
     render() {
         return (
-            <View style={styles.root}>
-                <FlatList
-                    data={this.state.data}
-                    keyExtractor={item => item.id}
-                    renderItem={this._renderItem}
-                    onEndReached={this._loadMore}
-                    onEndReachedThreshold={1}
-                    ListFooterComponent={<ActivityIndicator size="large"/>}
-                    refreshing={this.state.refreshing}
-                    onRefresh={this._refreshContent}/>
-            </View>
+            <FlatList
+                data={this.state.data}
+                keyExtractor={item => item.id}
+                renderItem={this._renderItem}
+                onEndReached={this._loadMore}
+                onEndReachedThreshold={1}
+                ListFooterComponent={<ActivityIndicator size="large"/>}
+                refreshing={this.state.refreshing}
+                onRefresh={this._refreshContent}/>
         )
     }
 }

@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {StyleSheet, TouchableOpacity, View, Animated,} from 'react-native'
 import CardView from 'react-native-cardview'
-import LikeButton from "../like-button"
+import LikeButton from "./like-button"
 import Icon from 'react-native-vector-icons/Feather'
-import {safeCall} from "../../helpers/util";
-import {getConstants} from "../../helpers/application-helper";
-import ShareBar from "../share-bar";
-import HeartImage from "../heart-image";
+import {safeCall} from "../helpers/util";
+import {getConstants} from "../helpers/application-helper";
+import ShareBar from "./share-bar";
+import HeartImage from "./heart-image";
 
 
 /**

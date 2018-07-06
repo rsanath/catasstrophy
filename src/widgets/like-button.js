@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {TouchableOpacity} from 'react-native'
 import Ionicon from 'react-native-vector-icons/Ionicons'
-import {safeCall} from "../../helpers/util";
+import {safeCall} from "../helpers/util";
 
 /**
  * An Instagram style like button
