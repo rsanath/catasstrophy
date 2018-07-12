@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {FlatList, StyleSheet, View} from 'react-native'
-import {getLikedImages, likeImage, removeLike} from "../helpers/likes-helper";
-import Article from "../widgets/article";
-import {HeaderBackButton} from 'react-navigation';
-import {checkAndRequestStoragePermission} from "../helpers/permissions-helper";
-import {saveAndShareImage} from "../helpers/share-image-helper";
-import {toast} from "../helpers/application-helper";
-import {saveImage} from "../helpers/save-image-helper";
+import {getLikedImages, likeImage, removeLike} from '../helpers/likes-helper'
+import Article from "../widgets/article"
+import {HeaderBackButton} from 'react-navigation'
+import {checkAndRequestStoragePermission} from '../helpers/permissions-helper'
+import {saveAndShareImage} from "../helpers/share-image-helper"
+import {toast} from '../helpers/application-helper'
+import {saveImage} from '../helpers/save-image-helper'
 
 
 export default class LikesScreen extends Component {
