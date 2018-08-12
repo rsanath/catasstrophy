@@ -22,8 +22,8 @@ export default class LikeButton extends Component {
         let color = this.props.liked ? this.state.color : 'black';
 
         return this.props.liked ?
-            <Ionicon name={'md-heart'} size={size} color={color} /> :
-            <Ionicon name={'md-heart-outline'} size={size} color={color} />
+            <Image style={{height: size, width: size}} source={require('../../assets/drawables/heart-filled.png')}/> :
+            <Icon name={'heart'} size={size} color={color}/>
     }
 
     _onPress() {
