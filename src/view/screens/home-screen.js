@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {ActivityIndicator, FlatList, TouchableOpacity} from 'react-native'
 import Article from '../widgets/article'
-import {saveImage} from '../helpers/save-image-helper'
-import {checkAndRequestStoragePermission} from "../helpers/permissions-helper";
-import {toast} from "../helpers/application-helper";
-import {saveAndShareImage} from "../helpers/share-image-helper";
-import {likeImage, removeLike} from "../helpers/likes-helper";
+import {saveImage} from '../../helpers/save-image-helper'
+import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
+import {toast} from "../../helpers/application-helper";
+import {saveAndShareImage} from "../../helpers/share-image-helper";
+import {likeImage, removeLike} from "../../helpers/likes-helper";
 import Icon from 'react-native-vector-icons/Ionicons'
 import {connect} from "react-redux";
-import {fetchCats, fetchMoreCats, refreshCats} from "../redux/actions/home-action";
+import {fetchCats, fetchMoreCats, refreshCats} from "../../redux/actions/home-action";
 
 
 class HomeScreen extends Component {

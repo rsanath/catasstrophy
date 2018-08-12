@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {ImageBackground, Image, Animated,} from 'react-native'
-import {getHeightForFullWidth, getScreenWidth} from "../helpers/application-helper";
-import DoubleTouchable from "./double-touchable";
+import {getHeightForFullWidth, getScreenWidth} from "../../helpers/application-helper";
+import DoubleTouchable from "../../widgets/double-touchable";
 import Icon from "react-native-vector-icons/Ionicons";
 
 

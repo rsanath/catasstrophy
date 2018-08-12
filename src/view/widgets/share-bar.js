@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {View, TextInput, TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/Feather'
-import {getConstants} from "../helpers/application-helper";
+import {getConstants} from "../../helpers/application-helper";
 
 export default class ShareBar extends Component {
 
