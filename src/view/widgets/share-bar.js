@@ -61,7 +61,5 @@ const styles = {
         flex: 1,
         fontSize: 17,
         padding: 0,
-        margin: 0,
-        marginBottom: 3
     }
 };

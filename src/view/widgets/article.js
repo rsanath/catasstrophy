@@ -65,7 +65,7 @@ export default class Article extends Component {
                     <Icon name={'save'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 18}}>
+                <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 5}}>
                     <Icon name={'share-2'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
 
@@ -105,7 +105,7 @@ export default class Article extends Component {
 
 const styles = StyleSheet.create({
     root: {
-        marginBottom: 20,
+        marginBottom: 15,
         backgroundColor: 'grey',
         flexDirection: 'column'
     },
@@ -116,9 +116,11 @@ const styles = StyleSheet.create({
     },
     actionTray: {
         flexDirection: 'row',
+        marginBottom: 7,  // To fix margin issue in react-native-card-view
+        justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingVertical: 15,
+        paddingHorizontal: 15,
+        paddingVertical: 10,
         backgroundColor: 'rgb(255,255,255)',
     },
     action: {
