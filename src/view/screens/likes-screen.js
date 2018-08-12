@@ -70,7 +70,8 @@ export default class LikesScreen extends Component {
                 <FlatList
                     data={this.state.data}
                     keyExtractor={item => item.id}
-                    renderItem={this._renderItem}/>
+                    renderItem={this._renderItem}
+                    keyboardShouldPersistTaps={'always'} />
             </View>
         )
     }

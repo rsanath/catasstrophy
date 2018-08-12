@@ -82,7 +82,8 @@ class HomeScreen extends Component {
                 onEndReachedThreshold={1}
                 ListFooterComponent={<ActivityIndicator size="large"/>}
                 refreshing={this.props.refreshing}
-                onRefresh={this.props.refreshCats}/>
+                onRefresh={this.props.refreshCats}
+                keyboardShouldPersistTaps={'always'} />
         )
     }
 }
