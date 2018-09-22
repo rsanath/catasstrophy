@@ -1,13 +1,12 @@
 import React, {Component} from 'react'
 import {FlatList, StyleSheet, View} from 'react-native'
-import {getLikedImages, likeImage, removeLike} from '../../helpers/likes-helper'
+import {getLikedImages, addToLikes, removeFromLikes} from '../../helpers/likes-helper'
 import Article from "../widgets/article"
 import {HeaderBackButton} from 'react-navigation'
 import {saveImage} from "../../helpers/save-image-helper";
 import {toast} from "../../helpers/application-helper";
 import {saveAndShareImage} from "../../helpers/share-image-helper";
 import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
-
 
 
 export default class LikesScreen extends Component {
@@ -52,8 +51,8 @@ export default class LikesScreen extends Component {
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
         const onShare = this._getShareFunction(item.url);
-        const onLike = () => likeImage(item.url);
-        const onUnlike = () => removeLike(item.url);
+        const onLike = () => addToLikes(item.url);
+        const onUnlike = () => removeFromLikes(item.url);
 
         return <Article
             onLike={onLike}

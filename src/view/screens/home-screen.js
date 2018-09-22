@@ -1,14 +1,15 @@
 import React, {Component} from 'react'
 import {ActivityIndicator, FlatList, TouchableOpacity} from 'react-native'
 import Article from '../widgets/article'
+import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-action'
+import ImageCache from '../../helpers/image-cache'
 import {saveImage} from '../../helpers/save-image-helper'
-import {checkAndRequestStoragePermission} from "../../helpers/permissions-helper";
-import {toast} from "../../helpers/application-helper";
-import {saveAndShareImage} from "../../helpers/share-image-helper";
-import {likeImage, removeLike} from "../../helpers/likes-helper";
+import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
+import {toast} from '../../helpers/application-helper'
+import {saveAndShareImage} from '../../helpers/share-image-helper'
 import Icon from 'react-native-vector-icons/Ionicons'
-import {connect} from "react-redux";
-import {fetchCats, fetchMoreCats, refreshCats} from "../../redux/actions/home-action";
+import {connect} from 'react-redux'
+import {addToLikes, removeFromLikes} from '../../helpers/likes-helper'
 
 
 class HomeScreen extends Component {
@@ -60,8 +61,11 @@ class HomeScreen extends Component {
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
         const onShare = this._getShareFunction(item.url);
-        const onLike = () => likeImage(item.url);
-        const onUnlike = () => removeLike(item.url);
+        const onLike = () => {
+            addToLikes(item.url);
+            this.props.dispatch()
+        }
+        const onUnlike = () => removeFromLikes(item.url);
 
         return <Article
             onLike={onLike}
@@ -83,7 +87,7 @@ class HomeScreen extends Component {
                 ListFooterComponent={<ActivityIndicator size="large"/>}
                 refreshing={this.props.refreshing}
                 onRefresh={this.props.refreshCats}
-                keyboardShouldPersistTaps={'always'} />
+                keyboardShouldPersistTaps={'always'}/>
         )
     }
 }
