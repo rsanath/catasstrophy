@@ -1,5 +1,5 @@
 import {saveImage} from "./save-image-helper";
-import {NativeModules} from 'react-native';
+import {NativeModules, Platform, Share} from 'react-native';
 import React from 'react';
 
 /**
@@ -13,11 +13,17 @@ export function shareFile(pathToFile, message) {
 }
 
 export async function saveAndShareImage(url, message) {
-    saveImage(url)
-        .then(response => {
-            if (response.successful) return response.path;
-            else throw response.error
-        })
-        .then(filepath => shareFile(filepath, message))
-        .catch(error => alert(error))
+
+    if (Platform.OS == 'ios') {
+        Share.share({title: 'Share via', url: url}).
+                catch(err => console.error(err));
+    } else {
+        saveImage(url)
+            .then(response => {
+                if (response.successful) return response.path;
+                else throw response.error
+            })
+            .then(filepath => shareFile(filepath, message))
+            .catch(error => alert(error))
+    }
 }

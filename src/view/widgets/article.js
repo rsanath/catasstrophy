@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {StyleSheet, TouchableOpacity, View, Animated,} from 'react-native'
+import {StyleSheet, TouchableOpacity, View, Animated, Platform} from 'react-native'
 import CardView from 'react-native-cardview'
 import LikeButton from "./like-button"
 import Icon from 'react-native-vector-icons/Feather'
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     },
     actionTray: {
         flexDirection: 'row',
-        marginBottom: 7,  // To fix margin issue in react-native-card-view
+        marginBottom: Platform.OS == 'android' ? 7 : 0,  // To fix margin issue in react-native-card-view
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: 15,

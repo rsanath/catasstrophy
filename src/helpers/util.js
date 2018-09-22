@@ -65,6 +65,17 @@ export function removeFromList(array, val) {
 }
 
 export function safeCall(func) {
-    if(typeof func !== 'function') return;
+    if (typeof func !== 'function') return;
     func && func()
+}
+
+export function toBoolean(value) {
+    let falsy = [[], '', 'false', undefined, null, 0]
+    let res = true;
+    falsy.forEach(i => {
+        if (i == value) {
+            res = false
+        }
+    })
+    return res;
 }
