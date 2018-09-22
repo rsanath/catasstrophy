@@ -73,6 +73,6 @@ const styles = {
     image: {
         justifyContent: 'center',
         alignItems: 'center',
-        resizeMode: 'contain',
+        // resizeMode: 'contain',
     },
 };

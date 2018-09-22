@@ -24,6 +24,9 @@ class HomeScreen extends Component {
             headerRight: viewLikesButton,
         };
     };
+    state = {
+        imagePathHash: {}
+    }
 
     constructor(props) {
         super(props);
@@ -67,13 +70,22 @@ class HomeScreen extends Component {
         }
         const onUnlike = () => removeFromLikes(item.url);
 
+        ImageCache.get(item.url).then(path => {
+            let pathHash = {}
+            console.log(path)
+            pathHash[item.url] = 'file://' + path
+            this.setState(state => ({imagePathHash: {...state.imagePathHash, ...pathHash}}))
+        })
+
+        const image = this.state.imagePathHash[item.url]
+
         return <Article
             onLike={onLike}
             onUnlike={onUnlike}
             onShare={onShare}
             onSave={onSave}
-            liked={false}
-            image={{uri: item.url}}/>
+            liked={item.liked}
+            image={{isStatic: true, uri: image}}/>
     }
 
     render() {
