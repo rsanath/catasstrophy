@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import {ActivityIndicator, FlatList, TouchableOpacity} from 'react-native'
+import Icon from 'react-native-vector-icons/Ionicons'
+import {connect} from 'react-redux'
+
 import Article from '../widgets/article'
 import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-action'
-import ImageCache from '../../helpers/image-cache'
 import {saveImage} from '../../helpers/save-image-helper'
 import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
 import {toast} from '../../helpers/application-helper'
 import {saveAndShareImage} from '../../helpers/share-image-helper'
-import Icon from 'react-native-vector-icons/Ionicons'
-import {connect} from 'react-redux'
-import {addToLikes, removeFromLikes} from '../../helpers/likes-helper'
+import {likeItem, unlikeItem} from '../../redux/actions/article-actions'
 
 
 class HomeScreen extends Component {
@@ -60,11 +60,8 @@ class HomeScreen extends Component {
     _renderItem({item}) {
         const onSave = () => this._saveImage(item.url);
         const onShare = this._getShareFunction(item.url);
-        const onLike = () => {
-            addToLikes(item.url);
-            this.props.dispatch()
-        }
-        const onUnlike = () => removeFromLikes(item.url);
+        const onLike = () => this.props.likeItem(item);
+        const onUnlike = () => this.props.unlikeItem(item);
 
         return <Article
             onLike={onLike}
@@ -93,11 +90,12 @@ class HomeScreen extends Component {
 
 const mapStateToProps = ({home}) => ({...home});
 
-
 const mapDispatchToProps = dispatch => ({
     fetchCats: () => dispatch(fetchCats()),
     fetchMoreCats: () => dispatch(fetchMoreCats()),
-    refreshCats: () => dispatch(refreshCats())
+    refreshCats: () => dispatch(refreshCats()),
+    likeItem: item => dispatch(likeItem(item)),
+    unlikeItem: item => dispatch(unlikeItem(item))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

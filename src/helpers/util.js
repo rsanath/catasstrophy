@@ -1,3 +1,5 @@
+const _ = require('lodash');
+
 const parseString = require('react-native-xml2js').parseString;
 
 /**
@@ -82,4 +84,16 @@ export function toBoolean(value) {
 
 export function absPath(path) {
     return `file://${path}`
+}
+
+export function replace(arr, item, replacement) {
+    for (let i in arr) {
+        const d = arr[i];
+        if (_.isEqual(d, item)) {
+            let newArr = _.cloneDeep(arr)
+            newArr[i] = replacement;
+            return newArr;
+        }
+    }
+    return arr;
 }

@@ -53,7 +53,7 @@ export default class CacheImage extends Component {
         const {w, h} = this._getDimensions()
 
         return (
-            <ImageBackground style={{width: w, height: h}} source={this._getImage()}>
+            <ImageBackground style={{width: w, height: h, ...this.props.style}} source={this._getImage()}>
                 {this.props.children}
             </ImageBackground>
         )

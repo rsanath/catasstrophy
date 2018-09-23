@@ -17,26 +17,20 @@ export default class Article extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            liked: props.liked,
             shareMode: false,
             shareMessage: '',
             likeOpacity: new Animated.Value(0)
         };
-        this._onSavePressed = this._onSavePressed.bind(this);
-        this._onSharePressed = this._onSharePressed.bind(this);
-        this._onLike = this._onLike.bind(this);
-        this._onUnlike = this._onUnlike.bind(this);
         this._getDefaultActionTray = this._getDefaultActionTray.bind(this);
     }
 
     _onLike() {
-        if (this.state.liked) return;
-        this.setState({liked: true});
+        if (this.props.liked) return;
         safeCall(this.props.onLike)
     }
 
     _onUnlike() {
-        this.setState({liked: false});
+        if (!this.props.liked) return;
         safeCall(this.props.onUnlike)
     }
 
@@ -53,19 +47,19 @@ export default class Article extends Component {
 
         return (<View style={styles.actions}>
             <LikeButton
-                onLike={this._onLike}
-                onUnlike={this._onUnlike}
+                onLike={this._onLike.bind(this)}
+                onUnlike={this._onUnlike.bind(this)}
                 ref="likeButton"
-                liked={this.state.liked}
+                liked={this.props.liked}
                 size={iconSize}/>
 
             <View style={{flexDirection: 'row'}}>
 
-                <TouchableOpacity onPress={this._onSavePressed}>
+                <TouchableOpacity onPress={this._onSavePressed.bind(this)}>
                     <Icon name={'save'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={this._onSharePressed} style={{marginLeft: 5}}>
+                <TouchableOpacity onPress={this._onSharePressed.bind(this)} style={{marginLeft: 5}}>
                     <Icon name={'share-2'} size={iconSize} color={'black'}/>
                 </TouchableOpacity>
 
@@ -92,7 +86,7 @@ export default class Article extends Component {
 
                 <HeartImage
                     image={this.props.image}
-                    onDoublePress={this._onLike}/>
+                    onDoublePress={this._onLike.bind(this)}/>
 
                 <View style={styles.actionTray}>
                     {this._getActionTray()}

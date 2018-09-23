@@ -1,6 +1,6 @@
 import {getCats} from '../../data/catapi'
 import {log} from '../../helpers/application-helper'
-import {addToLikes, attachLikeInfo, removeFromLikes} from '../../helpers/likes-helper'
+import {attachLikeInfo} from '../../helpers/likes-helper'
 
 export const HomeConstants = {
     FETCH_CATS_BEGIN: 'FETCH_CATS_BEGIN',
@@ -8,10 +8,7 @@ export const HomeConstants = {
     FETCH_CATS_ERROR: 'FETCH_CATS_ERROR',
     FETCH_MORE_CATS: 'FETCH_MORE_CATS',
     REFRESH_CATS_BEGIN: 'REFRESH_CATS_BEGIN',
-    REFRESH_CATS_SUCCESS: 'REFRESH_CATS_SUCCESS',
-    LIKE_IMAGE: 'LIKE_IMAGE',
-    REMOVE_LIKE: 'REMOVE_LIKE',
-    SAVE_IMAGE: 'SAVE_IMAGE'
+    REFRESH_CATS_SUCCESS: 'REFRESH_CATS_SUCCESS'
 };
 
 export const HomeActions = {
@@ -21,24 +18,7 @@ export const HomeActions = {
     fetchMoreCats: moreCats => ({type: HomeConstants.FETCH_MORE_CATS, payload: moreCats}),
     refreshCatsBegin: () => ({type: HomeConstants.REFRESH_CATS_BEGIN}),
     refreshCatsSuccess: cats => ({type: HomeConstants.REFRESH_CATS_SUCCESS, payload: cats}),
-    likeImage: item => ({type: HomeConstants.LIKE_IMAGE, payload: item}),
-    removeLike: imageUrl => ({type: HomeConstants.REMOVE_LIKE, payload: imageUrl}),
-    saveImage: url => ({type: HomeConstants.SAVE_IMAGE, payload: url})
 };
-
-export function likeImage(item) {
-    return dispatch => {
-        addToLikes(item)
-            .then(dispatch(HomeActions.likeImage(item)))
-    }
-}
-
-export function removeLike(imageUrl) {
-    return dispatch => {
-        removeFromLikes(imageUrl)
-            .then(dispatch(HomeActions.removeLike(imageUrl)))
-    }
-}
 
 export function fetchCats() {
     return dispatch => {
