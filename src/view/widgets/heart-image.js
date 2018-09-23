@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
-import {ImageBackground, Image, Animated,} from 'react-native'
-import {getHeightForFullWidth, getScreenWidth} from '../../helpers/application-helper'
+import {Animated} from 'react-native'
+import {getScreenWidth, log} from '../../helpers/application-helper'
 import DoubleTouchable from '../../widgets/double-touchable'
 import Icon from 'react-native-vector-icons/Ionicons'
 import CacheImage from '../widgets/cache-image'
@@ -10,23 +10,11 @@ export default class HeartImage extends Component {
 
     constructor(props) {
         super(props);
-        let screenWidth = getScreenWidth();
         this.state = {
-            // Initialize the view as blank square until the Image is loaded.
-            width: screenWidth,
-            height: screenWidth,
             likeOpacity: new Animated.Value(0)
         };
         this._onDoublePress = this._onDoublePress.bind(this);
         this._playHeartFadeAnimation = this._playHeartFadeAnimation.bind(this);
-    }
-
-    componentDidMount() {
-        Image.getSize(this.props.image.uri, (width, height) => {
-            this.setState({
-                height: getHeightForFullWidth(width, height)
-            })
-        });
     }
 
     _playHeartFadeAnimation() {
@@ -36,12 +24,14 @@ export default class HeartImage extends Component {
                 {
                     toValue: 1,
                     duration: 350,
+                    useNativeDriver: true
                 }),
             Animated.timing(
                 this.state.likeOpacity,
                 {
                     toValue: 0,
                     duration: 350,
+                    useNativeDriver: true
                 })
         ]).start();
     }
@@ -74,6 +64,6 @@ const styles = {
     image: {
         justifyContent: 'center',
         alignItems: 'center',
-        // resizeMode: 'contain',
-    },
+        resizeMode: 'contain'
+    }
 };
