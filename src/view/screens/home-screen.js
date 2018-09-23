@@ -23,15 +23,11 @@ class HomeScreen extends Component {
             headerTitle: 'Cats',
             headerRight: viewLikesButton,
         };
-    };
-    state = {
-        imagePathHash: {}
     }
 
     constructor(props) {
         super(props);
         this._saveImage = this._saveImage.bind(this);
-        this._renderItem = this._renderItem.bind(this);
         this._getShareFunction = this._getShareFunction.bind(this);
     }
 
@@ -70,22 +66,13 @@ class HomeScreen extends Component {
         }
         const onUnlike = () => removeFromLikes(item.url);
 
-        ImageCache.get(item.url).then(path => {
-            let pathHash = {}
-            console.log(path)
-            pathHash[item.url] = 'file://' + path
-            this.setState(state => ({imagePathHash: {...state.imagePathHash, ...pathHash}}))
-        })
-
-        const image = this.state.imagePathHash[item.url]
-
         return <Article
             onLike={onLike}
             onUnlike={onUnlike}
             onShare={onShare}
             onSave={onSave}
             liked={item.liked}
-            image={{isStatic: true, uri: image}}/>
+            image={item.url}/>
     }
 
     render() {
@@ -93,7 +80,7 @@ class HomeScreen extends Component {
             <FlatList
                 data={this.props.data}
                 keyExtractor={item => item.id}
-                renderItem={this._renderItem}
+                renderItem={this._renderItem.bind(this)}
                 onEndReached={this.props.fetchMoreCats}
                 onEndReachedThreshold={1}
                 ListFooterComponent={<ActivityIndicator size="large"/>}

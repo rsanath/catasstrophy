@@ -60,7 +60,7 @@ export default class LikesScreen extends Component {
             onShare={onShare}
             onSave={onSave}
             liked={true}
-            image={{uri: item.url}}/>
+            image={item.url}/>
     }
 
     render() {

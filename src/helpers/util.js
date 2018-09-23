@@ -79,3 +79,7 @@ export function toBoolean(value) {
     })
     return res;
 }
+
+export function absPath(path) {
+    return `file://${path}`
+}
