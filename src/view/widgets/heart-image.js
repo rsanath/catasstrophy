@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {ImageBackground, Image, Animated,} from 'react-native'
-import {getHeightForFullWidth, getScreenWidth} from "../../helpers/application-helper";
-import DoubleTouchable from "../../widgets/double-touchable";
-import Icon from "react-native-vector-icons/Ionicons";
+import {getHeightForFullWidth, getScreenWidth} from '../../helpers/application-helper'
+import DoubleTouchable from '../../widgets/double-touchable'
+import Icon from 'react-native-vector-icons/Ionicons'
+import CacheImage from '../widgets/cache-image'
 
 
 export default class HeartImage extends Component {
@@ -53,9 +54,9 @@ export default class HeartImage extends Component {
     render() {
         return (
             <DoubleTouchable onDoublePress={this._onDoublePress}>
-                <ImageBackground
-                    style={[{width: this.state.width, height: this.state.height,}, styles.image]}
-                    source={this.props.image}>
+                <CacheImage
+                    style={styles.image}
+                    url={this.props.image}>
 
                     <DoubleTouchable onDoublePress={this._onDoublePress}>
                         <Animated.Text style={{opacity: this.state.likeOpacity}}>
@@ -63,7 +64,7 @@ export default class HeartImage extends Component {
                         </Animated.Text>
                     </DoubleTouchable>
 
-                </ImageBackground>
+                </CacheImage>
             </DoubleTouchable>
         )
     }

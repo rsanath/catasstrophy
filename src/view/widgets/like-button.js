@@ -22,7 +22,7 @@ export default class LikeButton extends Component {
         let color = this.props.liked ? this.state.color : 'black';
 
         return this.props.liked ?
-            <Image style={{height: size, width: size}} source={require('../../assets/drawables/heart-filled.png')}/> :
+            <Image style={{height: size, width: size}} source={require('../../assets/images/heart-filled.png')}/> :
             <Icon name={'heart'} size={size} color={color}/>
     }
 

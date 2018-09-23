@@ -1,6 +1,6 @@
-import {getCats} from "../../dao/catapi";
-import {log} from "../../helpers/application-helper";
-import {addToLikes, attachLikeInfo, removeFromLikes} from "../../helpers/likes-helper";
+import {getCats} from '../../data/catapi'
+import {log} from '../../helpers/application-helper'
+import {addToLikes, attachLikeInfo, removeFromLikes} from '../../helpers/likes-helper'
 
 export const HomeConstants = {
     FETCH_CATS_BEGIN: 'FETCH_CATS_BEGIN',
