@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Animated} from 'react-native'
 import {getScreenWidth, log} from '../../helpers/application-helper'
-import DoubleTouchable from '../../widgets/double-touchable'
+import DoubleTouchable from './double-touchable'
 import Icon from 'react-native-vector-icons/Ionicons'
 import CacheImage from '../widgets/cache-image'
 
