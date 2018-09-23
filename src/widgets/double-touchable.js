@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {TouchableWithoutFeedback} from 'react-native'
+import {TouchableOpacity} from 'react-native'
 
 /**
  * A simple view wrapper that enables double tap event.
@@ -33,9 +33,12 @@ export default class DoubleTouchable extends Component {
 
     render() {
         return (
-            <TouchableWithoutFeedback {...this.props} onPress={this.handlePress}>
+            <TouchableOpacity
+                {...this.props}
+                activeOpacity={1}
+                onPress={this.handlePress}>
                 {this.props.children}
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
         )
     }
 }
