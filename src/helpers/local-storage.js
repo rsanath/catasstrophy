@@ -16,7 +16,10 @@ export default localStorage = {
     },
     get: async function (key) {
         try {
-            return JSON.parse(await AsyncStorage.getItem(key));
+            const result = await AsyncStorage.getItem(key);
+            if (!result) return null;
+
+            return JSON.parse(result);
         } catch (error) {
             console.error(error);
             return undefined;

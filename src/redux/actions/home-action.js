@@ -21,15 +21,15 @@ export const HomeActions = {
     fetchMoreCats: moreCats => ({type: HomeConstants.FETCH_MORE_CATS, payload: moreCats}),
     refreshCatsBegin: () => ({type: HomeConstants.REFRESH_CATS_BEGIN}),
     refreshCatsSuccess: cats => ({type: HomeConstants.REFRESH_CATS_SUCCESS, payload: cats}),
-    likeImage: imageUrl => ({type: HomeConstants.LIKE_IMAGE, payload: imageUrl}),
+    likeImage: item => ({type: HomeConstants.LIKE_IMAGE, payload: item}),
     removeLike: imageUrl => ({type: HomeConstants.REMOVE_LIKE, payload: imageUrl}),
     saveImage: url => ({type: HomeConstants.SAVE_IMAGE, payload: url})
 };
 
-export function likeImage(imageUrl) {
+export function likeImage(item) {
     return dispatch => {
-        addToLikes(imageUrl)
-            .then(dispatch(HomeActions.likeImage(imageUrl)))
+        addToLikes(item)
+            .then(dispatch(HomeActions.likeImage(item)))
     }
 }
 
