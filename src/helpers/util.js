@@ -86,14 +86,18 @@ export function absPath(path) {
     return `file://${path}`
 }
 
-export function replace(arr, item, replacement) {
+export function replace(arr, item, replacement, condition=(a,b) => _.isEqual(a,b)) {
     for (let i in arr) {
         const d = arr[i];
-        if (_.isEqual(d, item)) {
+        if (condition(d, item)) {
             let newArr = _.cloneDeep(arr)
             newArr[i] = replacement;
             return newArr;
         }
     }
     return arr;
+}
+
+export function remove(arr, item) {
+    return _.remove(arr, n => !_.isEqual(n, item))
 }

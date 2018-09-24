@@ -16,8 +16,8 @@ export function likeItem(item) {
     return dispatch => addToLikes(item).then(dispatch(ArticleActions.likeItem(item)))
 }
 
-export function unlikeItem(imageUrl) {
-    return dispatch => removeFromLikes(imageUrl).then(dispatch(ArticleActions.unlikeItem(imageUrl)))
+export function unlikeItem(item) {
+    return dispatch => removeFromLikes(item).then(dispatch(ArticleActions.unlikeItem(item)))
 }
 
 export function saveImage(item) {

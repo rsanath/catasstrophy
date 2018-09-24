@@ -41,9 +41,9 @@ export async function isLiked(imageUrl) {
 }
 
 export async function getLikedImages() {
-    const likes = await localStorage.get(LIKES);
+    const likes = await localStorage.get(LIKES) || [];
     _likes = likes;
-    return likes || []
+    return attachLikeInfo(likes)
 }
 
 export async function setLikedImages(likes) {
@@ -59,7 +59,7 @@ export async function addToLikes(item) {
 
 export async function removeFromLikes(item) {
     let likedImages = await getLikedImages();
-    const likedImage = likedImages.find(like => like.url === item.url);
+    const likedImage = likedImages.find(like => like.url == item.url);
     if (!likedImage) return;
     likedImages = removeFromList(likedImages, likedImage);
     return await setLikedImages(likedImages);

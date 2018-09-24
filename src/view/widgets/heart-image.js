@@ -63,7 +63,6 @@ export default class HeartImage extends Component {
 const styles = {
     image: {
         justifyContent: 'center',
-        alignItems: 'center',
-        resizeMode: 'contain'
+        alignItems: 'center'
     }
 };

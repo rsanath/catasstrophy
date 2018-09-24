@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import {connect} from 'react-redux'
 
 import Article from '../widgets/article'
-import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-action'
+import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-actions'
 import {saveImage} from '../../helpers/save-image-helper'
 import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
 import {toast} from '../../helpers/application-helper'

@@ -1,4 +1,4 @@
-import {HomeConstants} from '../actions/home-action'
+import {HomeConstants} from '../actions/home-actions'
 import {ArticleConstants} from '../actions/article-actions'
 import {replace} from '../../helpers/util'
 
@@ -10,10 +10,10 @@ const initialState = {
     data: [],
 };
 
-function setLiked(item, data, flag) {
+export function setLiked(item, data, flag) {
     // This is our opportunity to set the liked flag in our homescreen data list.
     // Returns the data list with the specific item's liked property set to true.
-    return replace(data, item, {...item, liked: flag});
+    return replace(data, item, {...item, liked: flag}, (a,b) => a.id == b.id);
 }
 
 export default function HomeReducer(state = initialState, action) {
@@ -66,6 +66,7 @@ export default function HomeReducer(state = initialState, action) {
                 data: setLiked(action.payload, state.data, true)
             }
         case ArticleConstants.UNLIKE_ITEM:
+            console.log('i came here')
             return {
                 ...state,
                 data: setLiked(action.payload, state.data, false)
