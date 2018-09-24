@@ -66,7 +66,6 @@ export default function HomeReducer(state = initialState, action) {
                 data: setLiked(action.payload, state.data, true)
             }
         case ArticleConstants.UNLIKE_ITEM:
-            console.log('i came here')
             return {
                 ...state,
                 data: setLiked(action.payload, state.data, false)

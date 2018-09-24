@@ -1,11 +1,16 @@
 package com.catasstrophy.modules;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v4.app.ShareCompat;
+import android.support.v4.content.FileProvider;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+
+import java.io.File;
 
 
 public class ShareModule extends ReactContextBaseJavaModule {
@@ -20,13 +25,21 @@ public class ShareModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void shareImage(String message, String uriToImage) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(uriToImage));
-        shareIntent.putExtra(Intent.EXTRA_TEXT, message);
-        shareIntent.setType("image/jpeg");
-        getCurrentActivity().startActivity(Intent.createChooser(shareIntent, "Share via"));
+    public void shareImage(String uriToImage, String message) {
+        Activity context = getCurrentActivity();
+
+        File cacheFile = new File(uriToImage);
+        Uri uri = FileProvider.getUriForFile(context, "com.catasstrophy.provider", cacheFile);
+        Intent intent = ShareCompat.IntentBuilder.from(context)
+                .setType("image/jpg")
+                .setSubject(message)
+                .setText(message)
+                .setStream(uri)
+                .setChooserTitle("Share via")
+                .createChooserIntent()
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        context.startActivity(intent);
     }
 
 }

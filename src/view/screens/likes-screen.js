@@ -4,11 +4,7 @@ import {HeaderBackButton} from 'react-navigation'
 import connect from 'react-redux/es/connect/connect'
 
 import Article from '../widgets/article'
-import {saveImage} from '../../helpers/save-image-helper'
-import {toast} from '../../helpers/application-helper'
-import {saveAndShareImage} from '../../helpers/share-image-helper'
-import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
-import {likeItem, unlikeItem} from '../../redux/actions/article-actions'
+import {likeItem, saveImage, shareImage, unlikeItem} from '../../redux/actions/article-actions'
 import {getLikedItems} from '../../redux/actions/likes-actions'
 
 
@@ -22,9 +18,7 @@ class LikesScreen extends Component {
 
     constructor(props) {
         super(props);
-        this._saveImage = this._saveImage.bind(this);
         this._renderItem = this._renderItem.bind(this);
-        this._getShareFunction = this._getShareFunction.bind(this);
     }
 
     componentDidMount() {
@@ -32,34 +26,18 @@ class LikesScreen extends Component {
         this.props.navigation.addListener('willFocus', () => this.props.getLikedItems())
     }
 
-    async _saveImage(url) {
-        if (await checkAndRequestStoragePermission()) {
-            toast('Saving image...');
-            saveImage(url).then(res => {
-                if (res.successful) toast(`Saved at ${res.path}`)
-            });
-        }
-    }
-
-    _getShareFunction(url) {
+    _getShareFunction(item) {
         return async (message) => {
-            if (!(await checkAndRequestStoragePermission())) return;
-            toast('Saving and sharing image...');
-            saveAndShareImage(url, message);
+            await shareImage(item, message)
         }
     }
 
     _renderItem({item}) {
-        const onSave = () => this._saveImage(item.url);
-        const onShare = this._getShareFunction(item.url);
-        const onLike = () => this.props.likeItem(item);
-        const onUnlike = () => this.props.unlikeItem(item);
-
         return <Article
-            onLike={onLike}
-            onUnlike={onUnlike}
-            onShare={onShare}
-            onSave={onSave}
+            onLike={() => this.props.likeItem(item)}
+            onUnlike={() => this.props.unlikeItem(item)}
+            onShare={this._getShareFunction(item)}
+            onSave={() => this.props.saveImage(item)}
             liked={item.liked}
             image={item.url}/>
     }
@@ -89,7 +67,8 @@ const mapStateToProps = ({likes}) => ({...likes});
 const mapDispatchToProps = dispatch => ({
     getLikedItems: () => dispatch(getLikedItems()),
     likeItem: item => dispatch(likeItem(item)),
-    unlikeItem: item => dispatch(unlikeItem(item))
+    unlikeItem: item => dispatch(unlikeItem(item)),
+    saveImage: item => dispatch(saveImage(item))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LikesScreen);

@@ -1,7 +1,8 @@
 import {addToLikes, removeFromLikes} from '../../helpers/likes-helper'
-import {saveImage as _saveImage} from '../../helpers/save-image-helper'
+import {saveImage as _saveImage, shareImage as _shareImage} from '../../helpers/file-helper'
 import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
 import {toast} from '../../helpers/application-helper'
+import ImageCache from '../../helpers/image-cache'
 
 export const ArticleConstants = {
     LIKE_ITEM: 'LIKE_ITEM',
@@ -24,6 +25,11 @@ export function likeItem(item) {
 
 export function unlikeItem(item) {
     return dispatch => removeFromLikes(item).then(dispatch(ArticleActions.unlikeItem(item)))
+}
+
+export async function shareImage(item, message) {
+    let path = await ImageCache.get(item.url)
+    return _shareImage(path, message)
 }
 
 export function saveImage(item) {

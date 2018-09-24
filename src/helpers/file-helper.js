@@ -7,8 +7,10 @@
  */
 
 import RNFetchBlob from 'rn-fetch-blob'
-import {getFunnyName} from './application-helper'
+import {getFunnyName, log} from './application-helper'
 import ImageCache from './image-cache'
+import {NativeModules} from 'react-native'
+import {getFileExtention} from './util'
 
 export async function saveImage(item) {
     const fs = RNFetchBlob.fs
@@ -16,7 +18,17 @@ export async function saveImage(item) {
     const cachePath = await ImageCache.get(item.url)
 
     const fileName = getFunnyName()
-    const newPath = `${fs.dirs.PictureDir}/Cats/${fileName}.jpg`
+    const newPath = `${fs.dirs.PictureDir}/Cats/${fileName}.${getFileExtention(item.url)}`
 
     return fs.createFile(newPath, cachePath, 'uri')
+}
+
+/**
+ * Given the image uri this method will share the image
+ * @param path
+ * @param message
+ */
+export function shareImage(path, message='') {
+    log('share path = ' + path)
+    NativeModules.ImageShareModule.shareImage(path, message);
 }

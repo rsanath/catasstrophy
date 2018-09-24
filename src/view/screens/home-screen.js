@@ -5,11 +5,7 @@ import {connect} from 'react-redux'
 
 import Article from '../widgets/article'
 import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-actions'
-import {saveImage} from '../../redux/actions/article-actions'
-import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
-import {toast} from '../../helpers/application-helper'
-import {saveAndShareImage} from '../../helpers/share-image-helper'
-import {likeItem, unlikeItem} from '../../redux/actions/article-actions'
+import {likeItem, unlikeItem, saveImage, shareImage} from '../../redux/actions/article-actions'
 
 
 class HomeScreen extends Component {
@@ -39,25 +35,18 @@ class HomeScreen extends Component {
         this.props.navigation.navigate('Likes')
     }
 
-    _getShareFunction(url) {
+    _getShareFunction(item) {
         return async (message) => {
-            if (!(await checkAndRequestStoragePermission())) return;
-            toast('Saving and sharing image...');
-            saveAndShareImage(url, message);
+            await shareImage(item, message)
         }
     }
 
     _renderItem({item}) {
-        const onSave = () => this.props.saveImage(item);
-        const onShare = this._getShareFunction(item.url);
-        const onLike = () => this.props.likeItem(item);
-        const onUnlike = () => this.props.unlikeItem(item);
-
         return <Article
-            onLike={onLike}
-            onUnlike={onUnlike}
-            onShare={onShare}
-            onSave={onSave}
+            onLike={() => this.props.likeItem(item)}
+            onUnlike={() => this.props.unlikeItem(item)}
+            onShare={this._getShareFunction(item)}
+            onSave={() => this.props.saveImage(item)}
             liked={item.liked}
             image={item.url}/>
     }
