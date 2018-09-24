@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 
 import Article from '../widgets/article'
 import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-actions'
-import {saveImage} from '../../helpers/save-image-helper'
+import {saveImage} from '../../redux/actions/article-actions'
 import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
 import {toast} from '../../helpers/application-helper'
 import {saveAndShareImage} from '../../helpers/share-image-helper'
@@ -27,7 +27,6 @@ class HomeScreen extends Component {
 
     constructor(props) {
         super(props);
-        this._saveImage = this._saveImage.bind(this);
         this._getShareFunction = this._getShareFunction.bind(this);
     }
 
@@ -40,15 +39,6 @@ class HomeScreen extends Component {
         this.props.navigation.navigate('Likes')
     }
 
-    async _saveImage(url) {
-        if (!(await checkAndRequestStoragePermission())) return;
-        toast('Saving image...');
-        saveImage(url).then(res => {
-            if (res.successful) toast(`Saved at ${res.path}`);
-            else toast('Unable to save image.');
-        });
-    }
-
     _getShareFunction(url) {
         return async (message) => {
             if (!(await checkAndRequestStoragePermission())) return;
@@ -58,7 +48,7 @@ class HomeScreen extends Component {
     }
 
     _renderItem({item}) {
-        const onSave = () => this._saveImage(item.url);
+        const onSave = () => this.props.saveImage(item);
         const onShare = this._getShareFunction(item.url);
         const onLike = () => this.props.likeItem(item);
         const onUnlike = () => this.props.unlikeItem(item);
@@ -95,7 +85,8 @@ const mapDispatchToProps = dispatch => ({
     fetchMoreCats: () => dispatch(fetchMoreCats()),
     refreshCats: () => dispatch(refreshCats()),
     likeItem: item => dispatch(likeItem(item)),
-    unlikeItem: item => dispatch(unlikeItem(item))
+    unlikeItem: item => dispatch(unlikeItem(item)),
+    saveImage: item => dispatch(saveImage(item))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);

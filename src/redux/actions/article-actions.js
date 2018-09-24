@@ -1,15 +1,21 @@
 import {addToLikes, removeFromLikes} from '../../helpers/likes-helper'
+import {saveImage as _saveImage} from '../../helpers/save-image-helper'
+import {checkAndRequestStoragePermission} from '../../helpers/permissions-helper'
+import {toast} from '../../helpers/application-helper'
 
 export const ArticleConstants = {
     LIKE_ITEM: 'LIKE_ITEM',
     UNLIKE_ITEM: 'UNLIKE_ITEM',
-    SAVE_IMAGE: 'SAVE_IMAGE'
+    SAVE_IMAGE: 'SAVE_IMAGE',
+    SAVE_IMAGE_SUCCESS: 'SAVE_IMAGE_SUCCESS',
+    SAVE_IMAGE_FAILURE: 'SAVE_IMAGE_FAILURE'
 };
 
 export const ArticleActions = {
     likeItem: item => ({type: ArticleConstants.LIKE_ITEM, payload: item}),
     unlikeItem: item => ({type: ArticleConstants.UNLIKE_ITEM, payload: item}),
-    saveImage: url => ({type: ArticleConstants.SAVE_IMAGE, payload: url})
+    saveImageSuccess: result => ({type: ArticleConstants.SAVE_IMAGE_SUCCESS, payload: result}),
+    saveImageFailure: error => ({type: ArticleConstants.SAVE_IMAGE_FAILURE, payload: error})
 };
 
 export function likeItem(item) {
@@ -21,5 +27,18 @@ export function unlikeItem(item) {
 }
 
 export function saveImage(item) {
-    //TODO
+    return dispatch => {
+        checkAndRequestStoragePermission().then(result => {
+            if (!result) return;
+            _saveImage(item)
+                .then(result => {
+                    dispatch(ArticleActions.saveImageSuccess(result))
+                    toast('Image saved')
+                })
+                .catch(error => {
+                    dispatchEvent(ArticleActions.saveImageFailure(error))
+                    toast('Unable to save image')
+                })
+        })
+    }
 }
