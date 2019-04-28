@@ -1,18 +1,18 @@
-import React, {Component} from 'react'
-import {ActivityIndicator, FlatList, TouchableOpacity} from 'react-native'
+import React, { Component } from 'react'
+import { ActivityIndicator, FlatList, TouchableOpacity, View } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 
 import Article from '../widgets/article'
-import {fetchCats, fetchMoreCats, refreshCats} from '../../redux/actions/home-actions'
-import {likeItem, unlikeItem, saveImage, shareImage} from '../../redux/actions/article-actions'
+import { fetchCats, fetchMoreCats, refreshCats } from '../../redux/actions/home-actions'
+import { likeItem, unlikeItem, saveImage, shareImage } from '../../redux/actions/article-actions'
 
 
 class HomeScreen extends Component {
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({ navigation }) => {
         let viewLikesButton = (
             <TouchableOpacity onPress={navigation.getParam('goToLikesScreen')}>
-                <Icon style={{marginRight: 13}} name={'md-heart'} size={30} color={'black'}/>
+                <Icon style={{ marginRight: 13 }} name={'md-heart'} size={30} color={'black'} />
             </TouchableOpacity>);
 
         return {
@@ -27,7 +27,7 @@ class HomeScreen extends Component {
     }
 
     componentDidMount() {
-        this.props.navigation.setParams({goToLikesScreen: this._goToLikesScreen.bind(this)});
+        this.props.navigation.setParams({ goToLikesScreen: this._goToLikesScreen.bind(this) });
         this.props.fetchCats();
     }
 
@@ -41,33 +41,35 @@ class HomeScreen extends Component {
         }
     }
 
-    _renderItem({item}) {
+    _renderItem({ item }) {
         return <Article
             onLike={() => this.props.likeItem(item)}
             onUnlike={() => this.props.unlikeItem(item)}
             onShare={this._getShareFunction(item)}
             onSave={() => this.props.saveImage(item)}
             liked={item.liked}
-            image={item.url}/>
+            image={item.url} />
     }
 
     render() {
         return (
-            <FlatList
-                data={this.props.data}
-                keyExtractor={item => item.id}
-                renderItem={this._renderItem.bind(this)}
-                onEndReached={this.props.fetchMoreCats}
-                onEndReachedThreshold={1}
-                ListFooterComponent={<ActivityIndicator size="large"/>}
-                refreshing={this.props.refreshing}
-                onRefresh={this.props.refreshCats}
-                keyboardShouldPersistTaps={'always'}/>
+            <View style={{backgroundColor: '#ffffff'}} >
+                <FlatList
+                    data={this.props.data}
+                    keyExtractor={item => item.id}
+                    renderItem={this._renderItem.bind(this)}
+                    onEndReached={this.props.fetchMoreCats}
+                    onEndReachedThreshold={1}
+                    ListFooterComponent={<ActivityIndicator size="large" />}
+                    refreshing={this.props.refreshing}
+                    onRefresh={this.props.refreshCats}
+                    keyboardShouldPersistTaps={'always'} />
+            </View>
         )
     }
 }
 
-const mapStateToProps = ({home}) => ({...home});
+const mapStateToProps = ({ home }) => ({ ...home });
 
 const mapDispatchToProps = dispatch => ({
     fetchCats: () => dispatch(fetchCats()),

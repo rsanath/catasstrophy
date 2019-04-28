@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {StyleSheet, TouchableOpacity, View, Animated, Platform} from 'react-native'
-import CardView from 'react-native-cardview'
 import LikeButton from './like-button'
 import Icon from 'react-native-vector-icons/Feather'
 import {safeCall} from '../../helpers/util'
@@ -79,11 +78,7 @@ export default class Article extends Component {
     render() {
 
         return (
-            <CardView
-                cardElevation={3}
-                cornerRadius={2}
-                style={styles.root}>
-
+            <View style={styles.root}>
                 <HeartImage
                     image={this.props.image}
                     onDoublePress={this._onLike.bind(this)}/>
@@ -92,16 +87,19 @@ export default class Article extends Component {
                     {this._getActionTray()}
                 </View>
 
-            </CardView>
+            </View>
         )
     }
 }
 
+
 const styles = StyleSheet.create({
     root: {
-        marginBottom: 15,
-        backgroundColor: 'grey',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        elevation: 5,
+        borderRadius: 4,
+        marginVertical: 5,
+        backgroundColor: '#ffffff',
     },
     actions: {
         flex: 1,
