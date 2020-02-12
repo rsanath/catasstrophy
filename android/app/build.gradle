@@ -89,7 +89,7 @@ apply from: "../../node_modules/react-native/react.gradle"
  * Upload all the APKs to the Play Store and people will download
  * the correct one based on the CPU architecture of their device.
  */
-def enableSeparateBuildPerCPUArchitecture = false
+def enableSeparateBuildPerCPUArchitecture = true
 
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
@@ -103,10 +103,10 @@ android {
         applicationId "com.catasstrophy"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0.1"
+        versionCode 3
+        versionName "1.0.2"
         ndk {
-            abiFilters "armeabi-v7a", "x86"
+//            abiFilters "armeabi-v7a", "x86"
         }
     }
     signingConfigs {
